@@ -96,51 +96,52 @@ def file_download(filenames):
         st.download_button("Download", data=file, file_name="switchy.zip", mime="zip")
 
 # conversion section
-def conversion_menu(images):
+def image_menu(images, selection):
 
-    # create a form to capture URL and take user options
-    with st.form("input image convert", clear_on_submit=True):
+    if selection == "Convert":
 
-        selection_image = st.radio('Into:', ('JPEG', 'PNG', 'BMP', 'TIFF', 'WEBP'), label_visibility="visible", horizontal=True)
+        # create a form to capture URL and take user options
+        with st.form("input image convert", clear_on_submit=True):
 
-        confirm_image_convert = st.form_submit_button("Submit")
+            selection_image = st.radio('Into:', ('JPEG', 'PNG', 'BMP', 'TIFF', 'WEBP'), label_visibility="visible", horizontal=True)
 
-    info_box()
+            confirm_image_convert = st.form_submit_button("Submit")
 
-    if confirm_image_convert:
+        info_box()
 
-        data_names = file_upload(images)
+        if confirm_image_convert:
 
-        results = image_conversion(selection_image, data_names)
+            data_names = file_upload(images)
 
-        file_download(results)
+            results = image_conversion(data_names, selection_image)
 
-        # removing files
-        for count, f in enumerate(results):
+            file_download(results)
 
-            delete_files(f)
-            delete_files(data_names[count])
+            # removing files
+            for count, f in enumerate(results):
 
-        delete_files(f"switchy.zip")
+                delete_files(f)
+                delete_files(data_names[count])
 
-# compression section
-def compression_menu(images):
+            delete_files(f"switchy.zip")
 
-    # create a form to capture URL and take user options
-    with st.form("input image compress", clear_on_submit=True):
+    elif selection_type == "Compress":
 
-        quality_image = st.slider("Quality:", 0, 100, 80)
+        # create a form to capture URL and take user options
+        with st.form("input image compress", clear_on_submit=True):
 
-        confirm_image_compress = st.form_submit_button("Submit")
+            quality_image = st.slider("Quality:", 0, 100, 80)
 
-    info_box()
+            confirm_image_compress = st.form_submit_button("Submit")
 
-    if confirm_image_compress:
+        info_box()
 
-        file_upload(images)
+        if confirm_image_compress:
+
+            file_upload(images)
 
 # image convert
-def image_conversion(target_type, images):
+def image_conversion(images, target_type):
 
     image_results = []
 
@@ -161,9 +162,49 @@ def image_conversion(target_type, images):
     return image_results
 
 # image compression
-def image_compression(quality):
+def image_compression(images, quality):
 
     return False
+
+# conversion section
+def video_menu(videos, selection):
+
+    return
+
+# image convert
+def video_conversion(videos, target_type):
+    
+    return
+
+# image compression
+def video_compression(videos, quality):
+
+    return
+
+# conversion section
+def audio_menu(audio, selection):
+
+    return
+
+# image convert
+def audio_conversion(audio, target_type):
+    
+    return
+
+# image compression
+def audio_compression(audio, quality):
+
+    return
+
+# conversion section
+def docs_menu(docs, selection):
+
+    return
+
+# image convert
+def docs_conversion(docs, target_type):
+    
+    return
 
 # main VISUAL ELEMENTS BEGIN HERE <<----------------------------------------------------------------------------||
 
@@ -199,13 +240,7 @@ if __name__ == "__main__":
 
             selection_type = st.selectbox('image', ('Convert', 'Compress'), label_visibility="collapsed")
 
-            if selection_type == "Convert":
-
-                conversion_menu(images)
-
-            elif selection_type == "Compress":
-
-                compression_menu(images)
+            image_menu(images, selection_type)
 
         # video upload
         with tab2:
