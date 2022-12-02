@@ -138,7 +138,101 @@ def image_menu(images, selection):
 
         if confirm_image_compress:
 
-            file_upload(images)
+            data_names = file_upload(images)
+
+            results = image_compression(data_names, quality_image)
+
+            file_download(results)
+
+            # removing files
+            for count, f in enumerate(results):
+
+                delete_files(f)
+                delete_files(data_names[count])
+
+            delete_files(f"switchy.zip")
+
+# conversion section
+def video_menu(videos, selection):
+
+    if selection == "Convert":
+
+        # create a form to capture URL and take user options
+        with st.form("input video convert", clear_on_submit=True):
+
+            selection_video = st.radio('Into:', ('MP4', 'AVI', 'MKV', 'MOV', 'WEBM'), label_visibility="visible", horizontal=True)
+
+            confirm_video_convert= st.form_submit_button("Submit")
+
+        info_box()
+
+        if confirm_video_convert:
+
+            file_upload(videos)
+
+    elif selection == "Compress":
+
+        # create a form to capture URL and take user options
+        with st.form("input video compress", clear_on_submit=True):
+
+            quality_video = st.slider("Quality:", 0, 100, 80)
+
+            confirm_video_compress = st.form_submit_button("Submit")
+
+        info_box()
+
+        if confirm_video_compress:
+
+            st.write("yes")
+
+# conversion section
+def audio_menu(audio, selection):
+
+    if selection == "Convert":
+
+        # create a form to capture URL and take user options
+        with st.form("input audio convert", clear_on_submit=True):
+
+            selection_audio = st.radio('Into:', ('MP3', 'WAV', 'OGG', 'AAC', 'FLAC'), label_visibility="visible", horizontal=True)
+
+            confirm_audio_convert = st.form_submit_button("Submit")
+
+        info_box()
+
+        if confirm_audio_convert:
+
+            file_upload(audio)
+
+    elif selection == "Compress":
+
+        # create a form to capture URL and take user options
+        with st.form("input audio compress", clear_on_submit=True):
+
+            quality_audio = st.slider("Quality:", 0, 100, 80)
+
+            confirm_audio_compress = st.form_submit_button("Submit")
+
+        info_box()
+
+        if confirm_audio_compress:
+
+            st.write("yes")
+
+# conversion section
+def docs_menu(docs):
+
+    # create a form to capture URL and take user options
+    with st.form("input doc convert", clear_on_submit=True):
+
+        selection_settings = st.radio('Into:', ('PDF', 'DOCX', 'ODT', 'RTF'), label_visibility="visible", horizontal=True)
+
+        confirm_docs = st.form_submit_button("Submit")
+
+    info_box()
+
+    if confirm_docs:
+
+        file_upload(docs)
 
 # image convert
 def image_conversion(images, target_type):
@@ -166,11 +260,6 @@ def image_compression(images, quality):
 
     return False
 
-# conversion section
-def video_menu(videos, selection):
-
-    return
-
 # image convert
 def video_conversion(videos, target_type):
     
@@ -181,11 +270,6 @@ def video_compression(videos, quality):
 
     return
 
-# conversion section
-def audio_menu(audio, selection):
-
-    return
-
 # image convert
 def audio_conversion(audio, target_type):
     
@@ -193,11 +277,6 @@ def audio_conversion(audio, target_type):
 
 # image compression
 def audio_compression(audio, quality):
-
-    return
-
-# conversion section
-def docs_menu(docs, selection):
 
     return
 
@@ -249,36 +328,8 @@ if __name__ == "__main__":
 
             selection_type = st.selectbox('video', ('Convert', 'Compress'), label_visibility="collapsed")
 
-            if selection_type == "Convert":
-
-                # create a form to capture URL and take user options
-                with st.form("input video convert", clear_on_submit=True):
-
-                    selection_video = st.radio('Into:', ('MP4', 'AVI', 'MKV', 'MOV', 'WEBM'), label_visibility="visible", horizontal=True)
-
-                    confirm_video_convert= st.form_submit_button("Submit")
-
-                info_box()
-
-                if confirm_video_convert:
-
-                    file_upload(videos)
-
-            elif selection_type == "Compress":
-
-                # create a form to capture URL and take user options
-                with st.form("input video compress", clear_on_submit=True):
-
-                    quality_video = st.slider("Quality:", 0, 100, 80)
-
-                    confirm_video_compress = st.form_submit_button("Submit")
-
-                info_box()
-
-                if confirm_video_compress:
-
-                    st.write("yes")
-
+            video_menu(videos, selection_type)
+            
         # audio upload
         with tab3:
 
@@ -286,35 +337,7 @@ if __name__ == "__main__":
 
             selection_type = st.selectbox('audio', ('Convert', 'Compress'), label_visibility="collapsed")
 
-            if selection_type == "Convert":
-
-                # create a form to capture URL and take user options
-                with st.form("input audio convert", clear_on_submit=True):
-
-                    selection_audio = st.radio('Into:', ('MP3', 'WAV', 'OGG', 'AAC', 'FLAC'), label_visibility="visible", horizontal=True)
-
-                    confirm_audio_convert = st.form_submit_button("Submit")
-
-                info_box()
-
-                if confirm_audio_convert:
-
-                    file_upload(audio)
-
-            elif selection_type == "Compress":
-
-                # create a form to capture URL and take user options
-                with st.form("input audio compress", clear_on_submit=True):
-
-                    quality_audio = st.slider("Quality:", 0, 100, 80)
-
-                    confirm_audio_compress = st.form_submit_button("Submit")
-
-                info_box()
-
-                if confirm_audio_compress:
-
-                    st.write("yes")
+            audio_menu(audio, selection_type)
 
         # document upload
         with tab4:
@@ -323,20 +346,7 @@ if __name__ == "__main__":
 
             selection_type = st.selectbox('doc', ('Convert',), label_visibility="collapsed")
 
-            if selection_type == "Convert":
-
-                # create a form to capture URL and take user options
-                with st.form("input doc convert", clear_on_submit=True):
-
-                    selection_settings = st.radio('Into:', ('PDF', 'DOCX', 'ODT', 'RTF'), label_visibility="visible", horizontal=True)
-
-                    confirm_docs = st.form_submit_button("Submit")
-
-                info_box()
-
-                if confirm_docs:
-
-                    file_upload(docs)
+            docs_menu(docs)
 
     # pain
     except Exception as e:
