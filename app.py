@@ -1,6 +1,7 @@
 import streamlit as st
 import ffmpeg
 import shutil
+import pathlib
 import PIL
 import os
 from zipfile import ZipFile
@@ -170,14 +171,26 @@ def video_menu(videos, selection):
 
         if confirm_video_convert:
 
-            file_upload(videos)
+            data_names = file_upload(videos)
+
+            results = video_conversion(data_names, selection_video)
+
+            file_download(results)
+
+            # removing files
+            for count, f in enumerate(results):
+
+                delete_files(f)
+                delete_files(data_names[count])
+
+            delete_files(f"switchy.zip")
 
     elif selection == "Compress":
 
         # create a form to capture URL and take user options
         with st.form("input video compress", clear_on_submit=True):
 
-            quality_video = st.slider("Quality:", 0, 100, 80)
+            quality_video = 35 - round(st.slider("Quality:", 0, 100, 100) / 20)
 
             confirm_video_compress = st.form_submit_button("Submit")
 
@@ -185,7 +198,21 @@ def video_menu(videos, selection):
 
         if confirm_video_compress:
 
-            st.write("yes")
+            data_names = file_upload(videos)
+
+            results = video_compression(data_names, quality_video)
+
+            if results:
+
+                file_download(results)
+
+                # removing files
+                for count, f in enumerate(results):
+
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                delete_files(f"switchy.zip")
 
 # conversion section
 def audio_menu(audio, selection):
@@ -203,14 +230,26 @@ def audio_menu(audio, selection):
 
         if confirm_audio_convert:
 
-            file_upload(audio)
+            data_names = file_upload(audio)
+
+            results = audio_conversion(data_names, selection_audio)
+
+            file_download(results)
+
+            # removing files
+            for count, f in enumerate(results):
+
+                delete_files(f)
+                delete_files(data_names[count])
+
+            delete_files(f"switchy.zip")
 
     elif selection == "Compress":
 
         # create a form to capture URL and take user options
         with st.form("input audio compress", clear_on_submit=True):
 
-            quality_audio = st.slider("Quality:", 0, 100, 80)
+            quality_audio = 10 - st.slider("Quality:", 0, 100, 100) / 10
 
             confirm_audio_compress = st.form_submit_button("Submit")
 
@@ -218,7 +257,21 @@ def audio_menu(audio, selection):
 
         if confirm_audio_compress:
 
-            st.write("yes")
+            data_names = file_upload(audio)
+
+            results = audio_compression(data_names, quality_audio)
+
+            if results:
+
+                file_download(results)
+
+                # removing files
+                for count, f in enumerate(results):
+
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                delete_files(f"switchy.zip")
 
 # conversion section
 def docs_menu(docs):
@@ -290,22 +343,54 @@ def image_compression(images, quality):
 # image convert
 def video_conversion(videos, target_type):
     
-    return
+    video_results = []
+
+    for count, item in enumerate(videos):
+
+        ffmpeg.input(item).output(f"new-video-{count}.{target_type}").run()
+        video_results.append(f"new-video-{count}.{target_type}")
+
+    return video_results
 
 # image compression
 def video_compression(videos, quality):
 
-    return
+    video_results = []
+
+    for count, item in enumerate(videos):
+
+        target_type = pathlib.Path(item).suffix
+
+        ffmpeg.input(item).output(f"new-video-{count}{target_type}", vcodec='libx265', preset='fast', crf=quality).run()
+        video_results.append(f"new-video-{count}{target_type}")
+
+    return video_results
 
 # image convert
 def audio_conversion(audio, target_type):
     
-    return
+    audio_results = []
+
+    for count, item in enumerate(audio):
+
+        ffmpeg.input(item).output(f"new-audio-{count}.{target_type}").run()
+        audio_results.append(f"new-audio-{count}.{target_type}")
+
+    return audio_results
 
 # image compression
 def audio_compression(audio, quality):
 
-    return
+    audio_results = []
+
+    for count, item in enumerate(audio):
+
+        target_type = pathlib.Path(item).suffix
+
+        ffmpeg.input(item).output(f"new-audio-{count}{target_type}", aq=quality).run()
+        audio_results.append(f"new-audio-{count}{target_type}")
+
+    return audio_results
 
 # image convert
 def docs_conversion(docs, target_type):
