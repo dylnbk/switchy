@@ -2,7 +2,6 @@ import streamlit as st
 import ffmpeg
 import shutil
 import pathlib
-import PIL
 import os
 from zipfile import ZipFile
 from PIL import Image
@@ -222,7 +221,7 @@ def audio_menu(audio, selection):
         # create a form to capture URL and take user options
         with st.form("input audio convert", clear_on_submit=True):
 
-            selection_audio = st.radio('Into:', ('MP3', 'WAV', 'OGG', 'AAC', 'FLAC'), label_visibility="visible", horizontal=True)
+            selection_audio = st.radio('Into:', ('MP3', 'M4A', 'WAV', 'OGG', 'FLAC'), label_visibility="visible", horizontal=True)
 
             confirm_audio_convert = st.form_submit_button("Submit")
 
@@ -272,22 +271,6 @@ def audio_menu(audio, selection):
                     delete_files(data_names[count])
 
                 delete_files(f"switchy.zip")
-
-# conversion section
-def docs_menu(docs):
-
-    # create a form to capture URL and take user options
-    with st.form("input doc convert", clear_on_submit=True):
-
-        selection_settings = st.radio('Into:', ('PDF', 'DOCX', 'ODT', 'RTF'), label_visibility="visible", horizontal=True)
-
-        confirm_docs = st.form_submit_button("Submit")
-
-    info_box()
-
-    if confirm_docs:
-
-        file_upload(docs)
 
 # image convert
 def image_conversion(images, target_type):
@@ -373,7 +356,7 @@ def audio_conversion(audio, target_type):
 
     for count, item in enumerate(audio):
 
-        ffmpeg.input(item).output(f"new-audio-{count}.{target_type}").run()
+        ffmpeg.input(item).output(f"new-audio-{count}.{target_type}", audio_bitrate=320000).run()
         audio_results.append(f"new-audio-{count}.{target_type}")
 
     return audio_results
@@ -381,21 +364,23 @@ def audio_conversion(audio, target_type):
 # image compression
 def audio_compression(audio, quality):
 
+    sample_rate = 0
     audio_results = []
+    st.write(quality)
+    if quality > 7:
+        sample_rate = 22050
+    elif quality > 5 and quality <= 7:
+        sample_rate = 32000
+    else:
+        sample_rate = 37800
 
     for count, item in enumerate(audio):
 
         target_type = pathlib.Path(item).suffix
-
-        ffmpeg.input(item).output(f"new-audio-{count}{target_type}", aq=quality).run()
+        ffmpeg.input(item).output(f"new-audio-{count}{target_type}", aq=quality, ar=sample_rate).run()
         audio_results.append(f"new-audio-{count}{target_type}")
 
     return audio_results
-
-# image convert
-def docs_conversion(docs, target_type):
-    
-    return
 
 # burger menu config
 st.set_page_config(
@@ -415,7 +400,7 @@ local_css("style.css")
 st.title('Change it.')
 
 # define tabs
-tab1, tab2, tab3, tab4 = st.tabs(["Image", "Video", "Audio", "Docs"])
+tab1, tab2, tab3 = st.tabs(["Image", "Video", "Audio"])
 
 # start script
 if __name__ == "__main__":
@@ -425,7 +410,7 @@ if __name__ == "__main__":
         # image upload
         with tab1:
 
-            images = st.file_uploader("upload image:", accept_multiple_files=True, type=['jpeg', 'jpg', 'png', 'bmp', 'tiff', 'tif', 'webp'], label_visibility="collapsed")
+            images = st.file_uploader("upload image:", accept_multiple_files=True, label_visibility="collapsed")
 
             selection_type = st.selectbox('image', ('Convert', 'Compress'), label_visibility="collapsed")
 
@@ -434,7 +419,7 @@ if __name__ == "__main__":
         # video upload
         with tab2:
 
-            videos =  st.file_uploader("upload video:", accept_multiple_files=True, type=['mp4', 'avi', 'mkv', 'mov', 'webm'], label_visibility="collapsed")
+            videos =  st.file_uploader("upload video:", accept_multiple_files=True, label_visibility="collapsed")
 
             selection_type = st.selectbox('video', ('Convert', 'Compress'), label_visibility="collapsed")
 
@@ -443,20 +428,11 @@ if __name__ == "__main__":
         # audio upload
         with tab3:
 
-            audio = st.file_uploader("upload audio:", accept_multiple_files=True, type=['mp3', 'wav', 'ogg', 'aac', 'flac'], label_visibility="collapsed")
+            audio = st.file_uploader("upload audio:", accept_multiple_files=True, label_visibility="collapsed")
 
             selection_type = st.selectbox('audio', ('Convert', 'Compress'), label_visibility="collapsed")
 
             audio_menu(audio, selection_type)
-
-        # document upload
-        with tab4:
-
-            docs = st.file_uploader("upload doc:", accept_multiple_files=True, type=['pdf', 'docx', 'odt', 'rtf'], label_visibility="collapsed")
-
-            selection_type = st.selectbox('doc', ('Convert',), label_visibility="collapsed")
-
-            docs_menu(docs)
 
     # pain
     except Exception as e:
