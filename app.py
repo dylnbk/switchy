@@ -130,7 +130,7 @@ def image_menu(images, selection):
         # create a form to capture URL and take user options
         with st.form("input image compress", clear_on_submit=True):
 
-            quality_image = st.slider("Quality:", 0, 100, 80)
+            quality_image = st.slider("Quality:", 0, 100, 100)
 
             confirm_image_compress = st.form_submit_button("Submit")
 
@@ -142,15 +142,17 @@ def image_menu(images, selection):
 
             results = image_compression(data_names, quality_image)
 
-            file_download(results)
+            if results:
 
-            # removing files
-            for count, f in enumerate(results):
+                file_download(results)
 
-                delete_files(f)
-                delete_files(data_names[count])
+                # removing files
+                for count, f in enumerate(results):
 
-            delete_files(f"switchy.zip")
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                delete_files(f"switchy.zip")
 
 # conversion section
 def video_menu(videos, selection):
@@ -258,7 +260,32 @@ def image_conversion(images, target_type):
 # image compression
 def image_compression(images, quality):
 
-    return False
+    image_results = []
+
+    for count, item in enumerate(images):
+
+        image = Image.open(item)
+        target_type = image.format.upper()
+
+        if target_type == "JPEG" or target_type == "JPG":
+
+            image = image.convert(mode='RGB', palette=Image.ADAPTIVE)
+            
+        else:
+            
+            image = image.quantize(method=2)
+
+        if target_type == "TIF" or target_type == "TIFF":
+
+                image.save(f"new-image-{count}.{target_type}", optimize=True) 
+                image_results.append(f"new-image-{count}.{target_type}")
+
+        else:
+
+            image.save(f"new-image-{count}.{target_type}", optimize=True, quality=quality) 
+            image_results.append(f"new-image-{count}.{target_type}")
+
+    return image_results
 
 # image convert
 def video_conversion(videos, target_type):
@@ -284,8 +311,6 @@ def audio_compression(audio, quality):
 def docs_conversion(docs, target_type):
     
     return
-
-# main VISUAL ELEMENTS BEGIN HERE <<----------------------------------------------------------------------------||
 
 # burger menu config
 st.set_page_config(
