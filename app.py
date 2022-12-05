@@ -436,4 +436,4 @@ if __name__ == "__main__":
 
     # pain
     except Exception as e:
-                st.error(e, icon="💔")
+                st.error("Something went wrong...", icon="💔")
