@@ -111,19 +111,21 @@ def image_menu(images, selection):
 
         if confirm_image_convert:
 
-            data_names = file_upload(images)
+            with st.spinner(''):
 
-            results = image_conversion(data_names, selection_image)
+                data_names = file_upload(images)
 
-            file_download(results)
+                results = image_conversion(data_names, selection_image)
 
-            # removing files
-            for count, f in enumerate(results):
+                file_download(results)
 
-                delete_files(f)
-                delete_files(data_names[count])
+                # removing files
+                for count, f in enumerate(results):
 
-            delete_files(f"switchy.zip")
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                delete_files(f"switchy.zip")
 
     elif selection_type == "Compress":
 
@@ -138,21 +140,23 @@ def image_menu(images, selection):
 
         if confirm_image_compress:
 
-            data_names = file_upload(images)
+            with st.spinner(''):
 
-            results = image_compression(data_names, quality_image)
+                data_names = file_upload(images)
 
-            if results:
+                results = image_compression(data_names, quality_image)
 
-                file_download(results)
+                if results:
 
-                # removing files
-                for count, f in enumerate(results):
+                    file_download(results)
 
-                    delete_files(f)
-                    delete_files(data_names[count])
+                    # removing files
+                    for count, f in enumerate(results):
 
-                delete_files(f"switchy.zip")
+                        delete_files(f)
+                        delete_files(data_names[count])
+
+                    delete_files(f"switchy.zip")
 
 # conversion section
 def video_menu(videos, selection):
@@ -170,19 +174,21 @@ def video_menu(videos, selection):
 
         if confirm_video_convert:
 
-            data_names = file_upload(videos)
+            with st.spinner(''):
 
-            results = video_conversion(data_names, selection_video)
+                data_names = file_upload(videos)
 
-            file_download(results)
+                results = video_conversion(data_names, selection_video)
 
-            # removing files
-            for count, f in enumerate(results):
+                file_download(results)
 
-                delete_files(f)
-                delete_files(data_names[count])
+                # removing files
+                for count, f in enumerate(results):
 
-            delete_files(f"switchy.zip")
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                delete_files(f"switchy.zip")
 
     elif selection == "Compress":
 
@@ -197,21 +203,23 @@ def video_menu(videos, selection):
 
         if confirm_video_compress:
 
-            data_names = file_upload(videos)
+            with st.spinner(''):
 
-            results = video_compression(data_names, quality_video)
+                data_names = file_upload(videos)
 
-            if results:
+                results = video_compression(data_names, quality_video)
 
-                file_download(results)
+                if results:
 
-                # removing files
-                for count, f in enumerate(results):
+                    file_download(results)
 
-                    delete_files(f)
-                    delete_files(data_names[count])
+                    # removing files
+                    for count, f in enumerate(results):
 
-                delete_files(f"switchy.zip")
+                        delete_files(f)
+                        delete_files(data_names[count])
+
+                    delete_files(f"switchy.zip")
 
 # conversion section
 def audio_menu(audio, selection):
@@ -229,19 +237,21 @@ def audio_menu(audio, selection):
 
         if confirm_audio_convert:
 
-            data_names = file_upload(audio)
+            with st.spinner(''):
 
-            results = audio_conversion(data_names, selection_audio)
+                data_names = file_upload(audio)
 
-            file_download(results)
+                results = audio_conversion(data_names, selection_audio)
 
-            # removing files
-            for count, f in enumerate(results):
+                file_download(results)
 
-                delete_files(f)
-                delete_files(data_names[count])
+                # removing files
+                for count, f in enumerate(results):
 
-            delete_files(f"switchy.zip")
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                delete_files(f"switchy.zip")
 
     elif selection == "Compress":
 
@@ -256,21 +266,23 @@ def audio_menu(audio, selection):
 
         if confirm_audio_compress:
 
-            data_names = file_upload(audio)
+            with st.spinner(''):
 
-            results = audio_compression(data_names, quality_audio)
-
-            if results:
-
-                file_download(results)
-
-                # removing files
-                for count, f in enumerate(results):
-
-                    delete_files(f)
-                    delete_files(data_names[count])
-
-                delete_files(f"switchy.zip")
+                data_names = file_upload(audio)
+    
+                results = audio_compression(data_names, quality_audio)
+    
+                if results:
+                
+                    file_download(results)
+    
+                    # removing files
+                    for count, f in enumerate(results):
+                    
+                        delete_files(f)
+                        delete_files(data_names[count])
+    
+                    delete_files(f"switchy.zip")
 
 # image convert
 def image_conversion(images, target_type):
