@@ -119,7 +119,7 @@ def image_menu(images, selection):
 
             # offer a checkbox selection
             with col1:
-                selection_image = st.radio('Into:', ('JPEG', 'PNG', 'BMP', 'TIFF', 'WEBP'), label_visibility="visible", horizontal=True)
+                selection_image = st.radio('Into:', ('BMP', 'JPEG', 'PNG', 'TIFF', 'WEBP'), label_visibility="visible", horizontal=True)
 
             # submit button
             with col2:
@@ -210,7 +210,7 @@ def video_menu(videos, selection):
 
             # offer a checkbox selection
             with col1:
-                selection_video = st.radio('Into:', ('MP4', 'AVI', 'MKV', 'MOV', 'WEBM'), label_visibility="visible", horizontal=True)
+                selection_video = st.radio('Into:', ('AVI', 'MKV', 'MP4', 'MOV', 'WEBM'), label_visibility="visible", horizontal=True)
 
             with col2:
                 # submit button
@@ -303,7 +303,7 @@ def audio_menu(audio, selection):
 
             # offer a checkbox selection
             with col1:
-                selection_audio = st.radio('Into:', ('MP3', 'M4A', 'WAV', 'OGG', 'FLAC'), label_visibility="visible", horizontal=True)
+                selection_audio = st.radio('Into:', ('FLAC', 'M4A', 'MP3', 'OGG', 'WAV'), label_visibility="visible", horizontal=True)
 
             # submit button
             with col2:    
