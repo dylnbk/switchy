@@ -29,7 +29,7 @@ def info_box():
             To show support, you can ☕ [buy me a coffee](https://www.buymeacoffee.com/dylnbk).
 
             **CAUTION** 
-            - Due to limited hosting capabilities, larger files can take quite a while to process.
+            - Due to limited hosting capabilities, large files & certain formats can take a long time to process.
             """)
 
         st.write("***")
