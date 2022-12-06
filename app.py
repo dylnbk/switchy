@@ -108,7 +108,7 @@ def file_download(filenames):
     with open("switchy.zip", "rb") as file:
         st.download_button("Download", data=file, file_name="switchy.zip", mime="zip")
 
-# conversion section
+# image menu
 def image_menu(images, selection):
 
     # if the user wants to convert
@@ -199,7 +199,7 @@ def image_menu(images, selection):
                 # delete zip file
                 delete_files(f"switchy.zip")
 
-# conversion section
+# video menu
 def video_menu(videos, selection):
 
     # if the user wants to convert
@@ -292,7 +292,7 @@ def video_menu(videos, selection):
                 # remove the zip file
                 delete_files(f"switchy.zip")
 
-# conversion section
+# audio menu
 def audio_menu(audio, selection):
 
     # if the user wants to covert
@@ -460,7 +460,7 @@ def image_compression(images, quality):
     # return the results
     return image_results
 
-# image convert
+# video convert
 def video_conversion(videos, target_type):
     
     # initialize list for the completed file info
@@ -478,7 +478,7 @@ def video_conversion(videos, target_type):
     # return the results
     return video_results
 
-# image compression
+# video compression
 def video_compression(videos, quality):
 
     # initialize list for the completed file info
@@ -499,7 +499,7 @@ def video_compression(videos, quality):
     # return the results
     return video_results
 
-# image convert
+# audio convert
 def audio_conversion(audio, target_type):
     
     # initialize list for the completed file info
@@ -516,7 +516,7 @@ def audio_conversion(audio, target_type):
 
     return audio_results
 
-# image compression
+# audio compression
 def audio_compression(audio, quality):
 
     # initialize sample rate variable
