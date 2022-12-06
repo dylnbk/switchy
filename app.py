@@ -161,25 +161,34 @@ def image_menu(images, selection):
 # conversion section
 def video_menu(videos, selection):
 
+    # if the user wants to convert
     if selection == "Convert":
 
         # create a form to capture URL and take user options
         with st.form("input video convert", clear_on_submit=True):
 
+            # offer a checkbox selection
             selection_video = st.radio('Into:', ('MP4', 'AVI', 'MKV', 'MOV', 'WEBM'), label_visibility="visible", horizontal=True)
 
+            # submit button
             confirm_video_convert= st.form_submit_button("Submit")
 
+        # generate the info box - here for layout purposes
         info_box()
 
+        # if the user wants to compress
         if confirm_video_convert:
 
+            # start visual spinner
             with st.spinner(''):
-
+                
+                # upload the files and store the file names
                 data_names = file_upload(videos)
 
+                # call conversion func, store return value
                 results = video_conversion(data_names, selection_video)
 
+                # send the converted files to the dowload func
                 file_download(results)
 
                 # removing files
@@ -188,61 +197,37 @@ def video_menu(videos, selection):
                     delete_files(f)
                     delete_files(data_names[count])
 
+                # remove the zip file
                 delete_files(f"switchy.zip")
 
+    # if the user wants to compress
     elif selection == "Compress":
 
         # create a form to capture URL and take user options
         with st.form("input video compress", clear_on_submit=True):
 
+            # ffmpeg compression method - lower number = higher quality
             quality_video = 35 - round(st.slider("Quality:", 0, 100, 100) / 20)
 
+            # submit button
             confirm_video_compress = st.form_submit_button("Submit")
 
+        # generate the info box - here for layout purposes
         info_box()
 
+        # if the user wants to compress
         if confirm_video_compress:
 
+            # start visual spinner
             with st.spinner(''):
 
+                # upload the files and store the file names
                 data_names = file_upload(videos)
 
+                # call compression func, store return value
                 results = video_compression(data_names, quality_video)
 
-                if results:
-
-                    file_download(results)
-
-                    # removing files
-                    for count, f in enumerate(results):
-
-                        delete_files(f)
-                        delete_files(data_names[count])
-
-                    delete_files(f"switchy.zip")
-
-# conversion section
-def audio_menu(audio, selection):
-
-    if selection == "Convert":
-
-        # create a form to capture URL and take user options
-        with st.form("input audio convert", clear_on_submit=True):
-
-            selection_audio = st.radio('Into:', ('MP3', 'M4A', 'WAV', 'OGG', 'FLAC'), label_visibility="visible", horizontal=True)
-
-            confirm_audio_convert = st.form_submit_button("Submit")
-
-        info_box()
-
-        if confirm_audio_convert:
-
-            with st.spinner(''):
-
-                data_names = file_upload(audio)
-
-                results = audio_conversion(data_names, selection_audio)
-
+                # send the converted files to the dowload func
                 file_download(results)
 
                 # removing files
@@ -251,124 +236,217 @@ def audio_menu(audio, selection):
                     delete_files(f)
                     delete_files(data_names[count])
 
+                # remove the zip file
                 delete_files(f"switchy.zip")
 
+# conversion section
+def audio_menu(audio, selection):
+
+    # if the user wants to covert
+    if selection == "Convert":
+
+        # create a form to capture URL and take user options
+        with st.form("input audio convert", clear_on_submit=True):
+
+            # offer a checkbox selection
+            selection_audio = st.radio('Into:', ('MP3', 'M4A', 'WAV', 'OGG', 'FLAC'), label_visibility="visible", horizontal=True)
+
+            # submit button
+            confirm_audio_convert = st.form_submit_button("Submit")
+
+        # generate the info box - here for layout purposes
+        info_box()
+
+        # if conversion
+        if confirm_audio_convert:
+
+            # start visual spinner
+            with st.spinner(''):
+
+                # upload the files
+                data_names = file_upload(audio)
+
+                # call conversion func, store return value
+                results = audio_conversion(data_names, selection_audio)
+
+                # send the converted files to the dowload func
+                file_download(results)
+
+                # removing files
+                for count, f in enumerate(results):
+                    
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                # remove the zip file
+                delete_files(f"switchy.zip")
+    
+    # if the user wants to compress
     elif selection == "Compress":
 
         # create a form to capture URL and take user options
         with st.form("input audio compress", clear_on_submit=True):
 
+            # ffmpeg compression method - lower number = higher quality
             quality_audio = 10 - st.slider("Quality:", 0, 100, 100) / 10
 
+            # submit button
             confirm_audio_compress = st.form_submit_button("Submit")
 
+        # generate the info box - here for layout purposes
         info_box()
 
+        # if the user wants to covert
         if confirm_audio_compress:
 
+            # start visual spinner
             with st.spinner(''):
 
+                # upload the files and store the file names
                 data_names = file_upload(audio)
-    
+
+                # call compression func, store return value
                 results = audio_compression(data_names, quality_audio)
-    
-                if results:
                 
-                    file_download(results)
-    
-                    # removing files
-                    for count, f in enumerate(results):
+                # send the compressed files to the dowload func
+                file_download(results)
+
+                # removing files
+                for count, f in enumerate(results):
                     
-                        delete_files(f)
-                        delete_files(data_names[count])
-    
-                    delete_files(f"switchy.zip")
+                    delete_files(f)
+                    delete_files(data_names[count])
+
+                # remove the zip file
+                delete_files(f"switchy.zip")
 
 # image convert
 def image_conversion(images, target_type):
 
+    # initialize list for the completed file info
     image_results = []
 
+    # iterate over uploaded files
     for count, item in enumerate(images):
 
         if target_type == "JPEG":
 
+            # open the image
             raw = Image.open(item)
+
+            # convert to RGB
             image = raw.convert('RGB')
 
         else:
             
+            # open the image
             image = Image.open(item)
 
+        # save it as a new file format
         image.save(f"new-image-{count}.{target_type}", target_type)
+
+        # append the file name to the results list
         image_results.append(f"new-image-{count}.{target_type}")
 
+    # return the results
     return image_results
 
 # image compression
 def image_compression(images, quality):
 
+    # initialize list for the completed file info
     image_results = []
 
+    # iterate over uploaded files
     for count, item in enumerate(images):
 
+        # load the image with PIL
         image = Image.open(item)
+
+        # get the file format and force it uppercase
         target_type = image.format.upper()
-
+       
         if target_type == "JPEG" or target_type == "JPG":
-
+            
+            # if jpeg convert to RGB mode
             image = image.convert(mode='RGB', palette=Image.ADAPTIVE)
             
         else:
             
+            # compress by reducing colours, good for lossless formats
             image = image.quantize(method=2)
-
+        
         if target_type == "TIF" or target_type == "TIFF":
 
+                # if tiff save using optimize only
                 image.save(f"new-image-{count}.{target_type}", optimize=True) 
+
+                # append the file name to the results list
                 image_results.append(f"new-image-{count}.{target_type}")
 
         else:
 
+            # save using optimize and quality reduction
             image.save(f"new-image-{count}.{target_type}", optimize=True, quality=quality) 
-            image_results.append(f"new-image-{count}.{target_type}")
 
+            # append the file name to the results list
+            image_results.append(f"new-image-{count}.{target_type}")
+    
+    # return the results
     return image_results
 
 # image convert
 def video_conversion(videos, target_type):
     
+    # initialize list for the completed file info
     video_results = []
 
+    # iterate over uploaded files
     for count, item in enumerate(videos):
 
+        # convert the file with ffmpeg
         ffmpeg.input(item).output(f"new-video-{count}.{target_type}").run()
+
+        # append the file name to the results list
         video_results.append(f"new-video-{count}.{target_type}")
 
+    # return the results
     return video_results
 
 # image compression
 def video_compression(videos, quality):
 
+    # initialize list for the completed file info
     video_results = []
 
+    # iterate over uploaded files
     for count, item in enumerate(videos):
 
+        # get the file format extension
         target_type = pathlib.Path(item).suffix
 
+        # compress the file
         ffmpeg.input(item).output(f"new-video-{count}{target_type}", vcodec='libx265', preset='fast', crf=quality).run()
+
+        # append the file name to the results list
         video_results.append(f"new-video-{count}{target_type}")
 
+    # return the results
     return video_results
 
 # image convert
 def audio_conversion(audio, target_type):
     
+    # initialize list for the completed file info
     audio_results = []
 
+    # iterate over uploaded files
     for count, item in enumerate(audio):
-
+        
+        # convert the file with ffmpeg, for lossy formats try min bitrate of 320kpbs
         ffmpeg.input(item).output(f"new-audio-{count}.{target_type}", audio_bitrate=320000).run()
+
+        # append the file name to the results list
         audio_results.append(f"new-audio-{count}.{target_type}")
 
     return audio_results
@@ -376,22 +454,40 @@ def audio_conversion(audio, target_type):
 # image compression
 def audio_compression(audio, quality):
 
+    # initialize sample rate variable
     sample_rate = 0
+
+    # initialize list for the completed file info
     audio_results = []
-    st.write(quality)
+
+    # higher = lower quality. drop sample rate by max amount
     if quality > 7:
+
         sample_rate = 22050
+
+    # medium quality
     elif quality > 5 and quality <= 7:
+
         sample_rate = 32000
+
+    # highest quality, lowest compression
     else:
+
         sample_rate = 37800
 
+    # iterate over uploaded files
     for count, item in enumerate(audio):
 
+        # get the file format extension
         target_type = pathlib.Path(item).suffix
+
+        # compress the file
         ffmpeg.input(item).output(f"new-audio-{count}{target_type}", aq=quality, ar=sample_rate).run()
+
+        # append the file name to the results list
         audio_results.append(f"new-audio-{count}{target_type}")
 
+    # return the results
     return audio_results
 
 # burger menu config
@@ -422,28 +518,37 @@ if __name__ == "__main__":
         # image upload
         with tab1:
 
+            # upload function, stores media in variable as a file-like object
             images = st.file_uploader("upload image:", accept_multiple_files=True, label_visibility="collapsed")
 
+            # drop down menu options
             selection_type = st.selectbox('image', ('Convert', 'Compress'), label_visibility="collapsed")
 
+            # call menu function, pass the media and compression/conversion choice
             image_menu(images, selection_type)
 
         # video upload
         with tab2:
 
+            # upload function, stores media in variable as a file-like object
             videos =  st.file_uploader("upload video:", accept_multiple_files=True, label_visibility="collapsed")
-
+            
+            # drop down menu options
             selection_type = st.selectbox('video', ('Convert', 'Compress'), label_visibility="collapsed")
 
+            # call menu function, pass the media and compression/conversion choice
             video_menu(videos, selection_type)
             
         # audio upload
         with tab3:
 
+            # upload function, stores media in variable as a file-like object
             audio = st.file_uploader("upload audio:", accept_multiple_files=True, label_visibility="collapsed")
 
+            # drop down menu options
             selection_type = st.selectbox('audio', ('Convert', 'Compress'), label_visibility="collapsed")
 
+            # call menu function, pass the media and compression/conversion choice
             audio_menu(audio, selection_type)
 
     # pain
