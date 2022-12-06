@@ -22,7 +22,9 @@ def info_box():
         st.write("### Thanks for visiting Switchy!")
 
         st.write("""
-            This website was made using Python, you can view the source [here](https://github.com/dylnbk/chat-bot).
+            This website was made using Python, you can view the source [here](https://github.com/dylnbk/switchy).
+
+            Convert & compress single/batches of images, videos & audio.
             
             To show support, you can ☕ [buy me a coffee](https://www.buymeacoffee.com/dylnbk).
             """)
@@ -30,23 +32,25 @@ def info_box():
         st.write("***")
 
         st.write("""
-            ##### asdfasdfs
-            - gfdagsfdsaf
+            ##### Image
+            - Convert to popular image formats.
+            - Compress by reducing colour depth & image quality.
             """)
         
         st.write("***")
 
         st.write("""
-            ##### sdfasdf
-            - fdsfasdf
+            ##### Video
+            - Convert to popular video formats.
+            - Compress to greatly reduce file size - can take quite a while.
             """)
 
         st.write("***")
 
         st.write("""
-            ##### fdsfd
-            - sdfsdfsdf
-            - asdfsadfasdfasd
+            ##### Audio
+            - Convert to popular audio formats.
+            - Compress by reducing sample rate & bit rate.
             """)
 
         st.write("")
@@ -69,16 +73,21 @@ def delete_files(path):
 # upload the file
 def file_upload(content):
 
+    # initialize a list to store file names
     data = []
 
+    # iterate over the files that have been uploaded
     for item in content:
 
+        # append file name to the list
         data.append(item.name)
 
+        # write the file from memory in to the system
         with open(item.name, "wb") as f:
 
             f.write(item.getbuffer())
 
+    # return the list of file names
     return data
 
 # zip and download
@@ -91,32 +100,42 @@ def file_download(filenames):
 
             # Add file to zip
             zipObj.write(f)
-        
+    
+    # create download button for the zip file
     with open("switchy.zip", "rb") as file:
         st.download_button("Download", data=file, file_name="switchy.zip", mime="zip")
 
 # conversion section
 def image_menu(images, selection):
 
+    # if the user wants to convert
     if selection == "Convert":
 
         # create a form to capture URL and take user options
         with st.form("input image convert", clear_on_submit=True):
 
+            # offer a checkbox selection
             selection_image = st.radio('Into:', ('JPEG', 'PNG', 'BMP', 'TIFF', 'WEBP'), label_visibility="visible", horizontal=True)
-
+            
+            # submit button
             confirm_image_convert = st.form_submit_button("Submit")
 
+        # generate the info box - used here for layout purposes
         info_box()
 
+        # if the user hits submit
         if confirm_image_convert:
 
+            # start visual spinner
             with st.spinner(''):
 
+                # upload the files and store the file names
                 data_names = file_upload(images)
 
+                # call conversion func, store return value
                 results = image_conversion(data_names, selection_image)
 
+                # send the converted files to the dowload func
                 file_download(results)
 
                 # removing files
@@ -125,6 +144,7 @@ def image_menu(images, selection):
                     delete_files(f)
                     delete_files(data_names[count])
 
+                # remove the zip file
                 delete_files(f"switchy.zip")
 
     elif selection_type == "Compress":
@@ -176,7 +196,7 @@ def video_menu(videos, selection):
         # generate the info box - here for layout purposes
         info_box()
 
-        # if the user wants to compress
+        # if the user hits submit
         if confirm_video_convert:
 
             # start visual spinner
@@ -215,7 +235,7 @@ def video_menu(videos, selection):
         # generate the info box - here for layout purposes
         info_box()
 
-        # if the user wants to compress
+        # if the user hits submit
         if confirm_video_compress:
 
             # start visual spinner
@@ -257,7 +277,7 @@ def audio_menu(audio, selection):
         # generate the info box - here for layout purposes
         info_box()
 
-        # if conversion
+        # if the user hits submit
         if confirm_audio_convert:
 
             # start visual spinner
@@ -296,7 +316,7 @@ def audio_menu(audio, selection):
         # generate the info box - here for layout purposes
         info_box()
 
-        # if the user wants to covert
+        # if the user hits submit
         if confirm_audio_compress:
 
             # start visual spinner
