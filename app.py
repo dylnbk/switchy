@@ -27,6 +27,9 @@ def info_box():
             Convert & compress single/batches of images, videos & audio.
             
             To show support, you can ☕ [buy me a coffee](https://www.buymeacoffee.com/dylnbk).
+
+            **CAUTION** 
+            - Due to limited hosting capabilities, larger files can take quite a while to process.
             """)
 
         st.write("***")
