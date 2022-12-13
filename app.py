@@ -28,7 +28,7 @@ def info_box():
 
             Run this application locally with the .exe found [here](https://link.storjshare.io/s/jwbzfzgfbkzce2ce36l67kjfynuq/grabby/Switchy.zip).
             
-            To show support, you can ☕ [buy me a coffee](https://www.buymeacoffee.com/dylnbk).
+            To show support, please consider ☕ [buying me a coffee](https://www.buymeacoffee.com/dylnbk).
 
             **CAUTION** 
             - Due to limited hosting capabilities, large files & certain formats can take a long time to process.
