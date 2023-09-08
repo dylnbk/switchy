@@ -24,13 +24,13 @@ footer {
 }
 
 .row-widget.stButton {
-    padding-top: 30px;
+    padding-top: 15px;
     -ms-transform: translateY(7%);
     transform: translateY(7%);
     text-align: center;
 }
 
-.css-1p05t8e.epcbefy1 {
+.css-1xw8zd0.e10yg2by1 {
     border: none;
     padding: 5px;
 }
@@ -43,6 +43,14 @@ footer {
     border: none;
     border-radius: 0px;
     border-bottom: solid 2px #7c7c7c31;
+}
+
+.css-1mqvgu9.ef3psqc6 {
+    width: 100%;
+}
+
+.css-1mqvgu9.ef3psqc11 {
+    width: 160px;
 }
 
 .css-1ehzy7p.edgvbvh5 {
