@@ -119,16 +119,11 @@ def image_menu(images, selection):
         # create a form to capture URL and take user options
         with st.form("input image convert", clear_on_submit=True):
 
-            # create a column layout
-            col1, col2 = st.columns([3, 1])
 
-            # offer a checkbox selection
-            with col1:
-                selection_image = st.radio('Into:', ('BMP', 'JPEG', 'PNG', 'TIFF', 'WEBP'), label_visibility="visible", horizontal=True)
+            selection_image = st.radio('Into:', ('BMP', 'JPEG', 'PNG', 'TIFF', 'WEBP'), label_visibility="visible", horizontal=True)
 
-            # submit button
-            with col2:
-                confirm_image_convert = st.form_submit_button("Submit")
+
+            confirm_image_convert = st.form_submit_button("Submit")
 
         # generate the info box - used here for layout purposes
         info_box()
@@ -163,16 +158,9 @@ def image_menu(images, selection):
         # create a form to capture URL and take user options
         with st.form("input image compress", clear_on_submit=True):
 
-            # create a column layout
-            col1, col2 = st.columns([3, 1])
+            quality_image = st.slider("Quality:", 0, 100, 100)
 
-            # offer a slider selection
-            with col1:
-                quality_image = st.slider("Quality:", 0, 100, 100)
-            
-            # submit button
-            with col2:
-                confirm_image_compress = st.form_submit_button("Submit")
+            confirm_image_compress = st.form_submit_button("Submit")
 
         # generate the info box - used here for layout purposes
         info_box()
@@ -210,16 +198,10 @@ def video_menu(videos, selection):
         # create a form to capture URL and take user options
         with st.form("input video convert", clear_on_submit=True):
 
-            # create a column layout
-            col1, col2 = st.columns([3, 1])
+            selection_video = st.radio('Into:', ('AVI', 'MKV', 'MP4', 'MOV', 'WEBM'), label_visibility="visible", horizontal=True)
 
-            # offer a checkbox selection
-            with col1:
-                selection_video = st.radio('Into:', ('AVI', 'MKV', 'MP4', 'MOV', 'WEBM'), label_visibility="visible", horizontal=True)
-
-            with col2:
-                # submit button
-                confirm_video_convert= st.form_submit_button("Submit")
+            # submit button
+            confirm_video_convert= st.form_submit_button("Submit")
 
         # generate the info box - here for layout purposes
         info_box()
@@ -254,18 +236,11 @@ def video_menu(videos, selection):
         # create a form to capture URL and take user options
         with st.form("input video compress", clear_on_submit=True):
 
-            # create a column layout
-            col1, col2 = st.columns([3, 1])
-
-            # offer a slider selection
-            with col1:
-
             # ffmpeg compression method - lower number = higher quality
-                quality_video = 35 - round(st.slider("Quality:", 0, 100, 100) / 20)
+            quality_video = 35 - round(st.slider("Quality:", 0, 100, 100) / 20)
 
             # submit button
-            with col2:
-                confirm_video_compress = st.form_submit_button("Submit")
+            confirm_video_compress = st.form_submit_button("Submit")
 
         # generate the info box - here for layout purposes
         info_box()
@@ -303,16 +278,11 @@ def audio_menu(audio, selection):
         # create a form to capture URL and take user options
         with st.form("input audio convert", clear_on_submit=True):
 
-            # create a column layout
-            col1, col2 = st.columns([3, 1])
-
             # offer a checkbox selection
-            with col1:
-                selection_audio = st.radio('Into:', ('FLAC', 'M4A', 'MP3', 'OGG', 'WAV'), label_visibility="visible", horizontal=True)
+            selection_audio = st.radio('Into:', ('FLAC', 'M4A', 'MP3', 'OGG', 'WAV'), label_visibility="visible", horizontal=True)
 
-            # submit button
-            with col2:    
-                confirm_audio_convert = st.form_submit_button("Submit")
+            # submit button 
+            confirm_audio_convert = st.form_submit_button("Submit")
 
         # generate the info box - here for layout purposes
         info_box()
@@ -347,18 +317,10 @@ def audio_menu(audio, selection):
         # create a form to capture URL and take user options
         with st.form("input audio compress", clear_on_submit=True):
 
-            # create a column layout
-            col1, col2 = st.columns([3, 1])
+            # ffmpeg compression method - lower number = higher quality
+            quality_audio = 10 - st.slider("Quality:", 0, 100, 100) / 10
 
-            # offer a slider selection
-            with col1:
-                
-                # ffmpeg compression method - lower number = higher quality
-                quality_audio = 10 - st.slider("Quality:", 0, 100, 100) / 10
-
-            # submit button
-            with col2:
-                confirm_audio_compress = st.form_submit_button("Submit")
+            confirm_audio_compress = st.form_submit_button("Submit")
 
         # generate the info box - here for layout purposes
         info_box()
