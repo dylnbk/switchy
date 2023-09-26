@@ -23,6 +23,8 @@ def info_box():
 
         st.write("""
             This website was made using Python, you can view the source [here](https://github.com/dylnbk/switchy).
+                 
+            Check out my personal website [dylnbk.page](https://dylnbk.page).
 
             Convert & compress single/batches of images, videos & audio.
 
